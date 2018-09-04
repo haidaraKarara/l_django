@@ -1,0 +1,23 @@
+<!-- squelette de notre application -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   {% comment %} <link rel="stylesheet" href="/media/css/style.css" /> {% endcomment %}
+   <title>{% block title %}Mon blog sur les crêpes bretonnes{% endblock %}</title>
+</head>
+<body>
+<header><h1>Crêpes bretonnes</h1></header>
+    <nav>
+       {% block nav %}
+       <ul>
+            <li><a href="#">Accueil</a></li>
+            <li><a href="{% url "rd" %}">Lien vers mon super article N° 42</a></li>
+       </ul>
+       {% endblock %}
+   </nav>
+   <section id="content">
+       {% block content %}{% endblock %}
+   </section>
+<footer>&copy; Crêpes bretonnes</footer>
+</body>
+</html>
