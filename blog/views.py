@@ -3,6 +3,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,Http404
 from datetime import datetime
 from django.http import Http404
+
+from .forms import ContactForm
 from blog.models import Article
 # Create your views here.
 
@@ -36,3 +38,26 @@ def accueil(request):
 def lire(request, id,slug):
     article = get_object_or_404(Article, id=id,slug=slug)
     return render(request, 'blog/lire.html', {'article':article})
+
+# Les formulaires 
+def contact(request):
+    # Construire le formulaire, soit avec les données postées,
+    # soit vide si l'utilisateur accède pour la première fois
+    # à la page.
+    form = ContactForm(request.POST or None)
+    # Nous vérifions que les données envoyées sont valides
+    # Cette méthode renvoie False s'il n'y a pas de données 
+    # dans le formulaire ou qu'il contient des erreurs.
+    if form.is_valid(): 
+        # Ici nous pouvons traiter les données du formulaire
+        sujet = form.cleaned_data['sujet']
+        message = form.cleaned_data['message']
+        envoyeur = form.cleaned_data['envoyeur']
+        renvoi = form.cleaned_data['renvoi']
+
+        # Nous pourrions ici envoyer l'e-mail grâce aux données 
+        # que nous venons de récupérer
+        envoi = True
+    
+    # Quoiqu'il arrive, on affiche la page du formulaire.
+    return render(request, 'blog/contact.html', locals())
