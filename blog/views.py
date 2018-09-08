@@ -4,7 +4,7 @@ from django.http import HttpResponse,Http404
 from datetime import datetime
 from django.http import Http404
 
-from .forms import ContactForm
+from .forms import ContactForm, ArticleForm
 from blog.models import Article
 # Create your views here.
 
@@ -33,7 +33,10 @@ def addition(request, nombre1, nombre2):
 def accueil(request):
     """ Afficher tous les articles de notre blog """
     articles = Article.objects.all() # Nous sélectionnons tous nos articles
-    return render(request, 'blog/accueil.html', {'derniers_articles': articles})
+    # formulaire d'un article
+    form = ArticleForm(request.POST or None)
+
+    return render(request, 'blog/accueil.html', locals())
 
 def lire(request, id,slug):
     article = get_object_or_404(Article, id=id,slug=slug)
